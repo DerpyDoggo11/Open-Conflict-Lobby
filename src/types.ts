@@ -1,5 +1,5 @@
 
-export type PageName = 'home' | 'servers' | 'loadout' | 'settings';
+export type PageName = 'home' | 'servers' | 'loadouts' | 'settings';
 
 export type NavigateFn = (page: PageName) => void;
 

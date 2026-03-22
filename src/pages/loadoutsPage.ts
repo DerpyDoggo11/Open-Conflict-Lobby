@@ -1,10 +1,10 @@
 import type { NavigateFn } from '../types.js';
 import { backButton } from '../components/backButton.js';
 
-export function createSettingsPage(navigate: NavigateFn): HTMLElement {
+export function createLoadoutsPage(navigate: NavigateFn): HTMLElement {
     const page = document.createElement('div');
-    page.className = 'page page--settings';
-    page.id = 'page-settings';
+    page.className = 'page page--loadout';
+    page.id = 'page-loadout';
 
     const back = new backButton({ onClick: () => navigate('home')});
     page.appendChild(back.element);
