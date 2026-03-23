@@ -1,0 +1,49 @@
+
+@font-face {
+    font-family: 'pixelFont';
+    src: url("/assets/fonts/pixelFont.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --color-bg: #202E37;
+    --color-bg-panel: #1c2931;
+    --color-border: #7a9898;
+    --color-border-dim:#4a6868;
+    --color-text-primary: #c8d8c0;
+    --color-text-secondary: #7a9898;
+    --color-text-title: #d8e8d0;
+    --color-text-error: #cc4444;
+
+    --font-game: 'pixelFont', 'Courier New', monospace;
+    --font-size-xs: 9px;
+    --font-size-sm: 11px;
+    --font-size-md: 13px;
+    --font-size-lg: 16px;
+    --font-size-xl: 22px;
+    --font-size-logo: 32px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md:  16px;
+    --space-lg:  24px;
+    --space-xl:  40px;
+
+    --color-divider: #3a5858;
+
+    --btn-sprite-path: url('../public/assets/images/buttonBackgroundSpritesheet.png');
+    --btn-sprite-width: 128px;
+    --btn-sprite-height: 32px; 
+
+    --arrow-left-path: url('../public/assets/images/leftArrow.png');
+    --arrow-size: 16px;
+
+    --character-path: url('../public/assets/images/goober.png');
+
+    --logo-path: url('../public/assets/images/openConflictLogo.png');
+
+    --transition-fast:   80ms ease;
+    --transition-normal: 140ms ease;
+}
