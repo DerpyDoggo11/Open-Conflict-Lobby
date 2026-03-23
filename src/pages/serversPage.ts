@@ -1,6 +1,7 @@
 import type { NavigateFn, Server, MapOption } from '../types.js';
 import { backButton } from '../components/backButton.js';
 import { animatedButton } from '../components/animatedButton.js';
+import { BracketContainer } from '../components/bracketContainer.js';
 
 const SERVERS: Server[] = [
     { id: 1, name: 'Server 1', currentPlayers: 1, maxPlayers: 2},
@@ -47,6 +48,8 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
     for (const server of SERVERS) {
         const isFull = server.currentPlayers >= server.maxPlayers;
+        
+        const bracket = new BracketContainer({className: 'server-row'});
 
         const info = document.createElement('div');
         info.className = 'server-row__info';
@@ -64,6 +67,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
         info.appendChild(name);
         info.appendChild(count);
+        bracket.append(info);
 
         const joinButton = new animatedButton({
             label: 'Join',
@@ -73,19 +77,81 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
                 activeServerID = server.id;
                 isReady = false;
                 votedMapID = null;
-                renderQueuePanel(server);
+                buildQueuePanel(server);
                 document
                   .querySelectorAll('.server-row')
                   .forEach(serverElement => serverElement.classList.remove('server-row--active'));
-                
+                bracket.element.classList.add('server-row--active');
             },
         });
-
-        serverList.appendChild(joinButton)
-        
-        
-
+        bracket.append(joinButton.element);
+        serverList.appendChild(bracket.element);
     }
+
+    function buildQueuePanel(server: Server): void {
+        queuePanel.innerHTML = '';
+        
+        const title = document.createElement('div');
+        title.className = 'queue__title label';
+        title.textContent = `Queued in ${server.name}`;
+        queuePanel.appendChild(title);
+
+        const waiting = document.createElement('div');
+        waiting.className = 'queue__waiting sublabel mt-sm';
+        waiting.textContent = 'Waiting for more players:';
+        queuePanel.appendChild(waiting);
+
+        const playerCount = document.createElement('div');
+        playerCount.className = 'queue__player-count sublabel';
+        playerCount.textContent = `${server.currentPlayers}/${server.maxPlayers} players`
+
+        const readyRow = document.createElement('div');
+        readyRow.className = 'flex-row align-center gap-md mt-md';
+
+        const readyButton = new animatedButton({
+            label: isReady ? 'Ready' : 'Not Ready',
+            onClick: () => {
+                isReady = !isReady;
+                readyButton.setLabel(isReady ? 'Ready' : 'Not Ready');
+                readyCountElement.textContent = `${isReady ? 1 : 0} / ${server.maxPlayers} players readied`;
+            },
+        });
+        
+        const readyCountElement = document.createElement('span');
+        readyCountElement.className = 'sublabel';
+        readyCountElement.textContent = `${isReady ? 1 : 0} / ${server.maxPlayers} players readied`;
+
+        readyRow.appendChild(readyButton.element);
+        readyRow.appendChild(readyCountElement);
+        queuePanel.appendChild(readyRow);
+
+        const voteLabel = document.createElement('div');
+        voteLabel.className = 'label mt-lg';
+        voteLabel.textContent = 'Vote for map:';
+        queuePanel.appendChild(voteLabel);
+
+        const mapGrid = document.createElement('div');
+        mapGrid.className = 'queue__map-grid mt-sm';
+
+        for (const map of MAP_OPTIONS) {
+            const mapButton = document.createElement('button');
+            mapButton.className = 'map-vote-button';
+            if (map.id === votedMapID) mapButton.classList.add('map-vote-button--voted');
+            mapButton.textContent = map.label;
+            mapButton.addEventListener('click', () => {
+                votedMapID = map.id;
+                buildQueuePanel(server);
+            });
+            mapGrid.appendChild(mapButton)
+        }
+
+        queuePanel.appendChild(mapGrid)
+    }
+
+    const emptyState = document.createElement('div');
+    emptyState.className = 'queue__empty sublabel';
+    emptyState.textContent = 'Select a server to join';
+    queuePanel.appendChild(emptyState);
 
     return page;
 }
