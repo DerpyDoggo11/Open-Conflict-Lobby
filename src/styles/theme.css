@@ -33,9 +33,12 @@
 
     --color-divider: #3a5858;
 
-    --btn-sprite-path: url('/assets/images/buttonBackgroundSpritesheet.png');
-    --btn-sprite-width: 128px;
-    --btn-sprite-height: 32px; 
+    --animated-button-path: url('/assets/images/buttonBackgroundSpritesheet.png');
+    --animated-button-width: 128px;
+    --animated-button-height: 32px; 
+
+    --bracket-bg-path: url('');
+    
 
     --arrow-left-path: url('/assets/images/leftArrow.png');
     --arrow-size: 18px;

@@ -1,61 +1,6 @@
-/* ----- Components ------ */
-.back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    background: none;
-    border: none;
-    color: var(--color-text-primary);
-    font-family: var(--font-game);
-    font-size: var(--font-size-md);
-    cursor: pointer;
-    padding: var(--space-xs) var(--space-sm);
-    transition: color var(--transition-fast);
-    user-select: none;
-    align-self: flex-start;
-}
+/* ------- HOME PAGE -------- */
 
-.back-button:hover {
-    color: var(--color-text-title);
-}
-
-.back-button__arrow {
-    width: var(--arrow-size);
-    height: var(--arrow-size);
-    display: inline-block;
-    
-    background-image: var(--arrow-left-path);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.label {
-    font-size: var(--font-size-md);
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-sm); 
-}
-
-.label--section {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-md);
-}
-
-.sublabel {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-}
-
-.divider--vertical {
-  width: 1px;
-  background-color: var(--color-divider);
-  align-self: stretch;
-}
-
-/* Home Page */
 .page--home {
-    /* position: relative; */
     overflow: hidden;
 }
 
@@ -90,7 +35,7 @@
 }
 
 .home__logo-img {
-    width: 360px; /* explicit width forces it to scale up */
+    width: 360px;
     max-width: 100%;
     height: auto;
     display: block;
@@ -155,7 +100,119 @@
     display: block;
 }
 
-/* Server Selector Page */
+/* ------ SERVER PAGE ------- */
 .page--servers {
     gap: var(--space-md);
+}
+
+
+
+
+/* ----- COMPONENTS / UTILS ------ */
+
+
+/* BACK BUTTON */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-family: var(--font-game);
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    padding: var(--space-xs) var(--space-sm);
+    transition: color var(--transition-fast);
+    user-select: none;
+    align-self: flex-start;
+}
+
+.back-button:hover {
+    color: var(--color-text-title);
+}
+
+.back-button__arrow {
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    display: inline-block;
+    
+    background-image: var(--arrow-left-path);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.label {
+    font-size: var(--font-size-md);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm); 
+}
+
+.label--section {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.sublabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.divider--vertical {
+  width: 1px;
+  background-color: var(--color-divider);
+  align-self: stretch;
+}
+
+/* --- ANIMATED BUTTON --- */
+.animated-button {
+    display: inline-block;
+    width: var(--animated-button-width);
+    height: var(--animted-button-height);
+    background-image: var(--animated-button-path);
+    background-size: calc(var(--animated-button-width) * 4) var(--animated-button-height);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    font-family: var(--font-game);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    line-height: var(--animated-button-height);
+    padding: 0;
+
+    background-color: transparent;
+    outline: var(--bracket-weight) solid var(--color-border);
+    outline-offset: -2px;
+}
+
+.animated-button:hover:not(:disabled) {
+    background-position: 0px calc(var(--animated-button-height) * -1);
+}
+
+.animated-button:active:not(:disabled) {
+    background-position: 0px calc(var(--animated-button-height) * -2);
+    transform: translateY(1px);
+}
+
+.animated-button:disabled,
+.animated-button--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.animated-button.animated-button--loaded {
+    outline: none;
+}
+
+/* --- BRACKET BACKGROUND --- */
+.bracket-container {
+  position: relative;
+  padding: var(--space-md);
+  background-image: var(--bracket-bg-path);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
