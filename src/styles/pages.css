@@ -90,6 +90,7 @@
 }
 
 .home__logo-img {
+    width: 360px; /* explicit width forces it to scale up */
     max-width: 100%;
     height: auto;
     display: block;
@@ -117,7 +118,9 @@
     transition: color var(--transition-fast);
     text-align: left;
     user-select: none;
+    align-self: flex-start;
 }
+
 .home__nav-item:hover {
     color: var(--color-text-secondary);
 }
@@ -125,18 +128,17 @@
 .home__nav-item:hover .nav-checkbox {
     border-color: var(--color-border);
     background-color: #c8d4dc0f;
+    opacity: 1.4;
 }
 
 .nav-checkbox {
-    display: inline-block;
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-border-dim);
     flex-shrink: 0;
-    transition:
-      border-color var(--transition-fast),
-      background-color var(--transition-fast)
+    image-rendering: pixelated;
+    transition: opacity var(--transition-fast);
 }
+
 
 .home__character {
     position: absolute;

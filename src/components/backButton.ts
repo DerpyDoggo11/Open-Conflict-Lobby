@@ -14,8 +14,6 @@ export class backButton {
         arrow.className = 'back-button__arrow';
         arrow.setAttribute('aria-hidden', 'true');
 
-        arrow.textContent = '<--'
-
         const text = document.createElement('span');
         text.textContent = label;
 

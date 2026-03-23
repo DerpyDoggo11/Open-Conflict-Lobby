@@ -38,9 +38,16 @@ export function createHomePage(navigate: NavigateFn): HTMLElement {
         button.className = 'home__nav-item';
         button.addEventListener('click', () => navigate(item.page));
 
-        const checkBox = document.createElement('span');
+        const checkBox = document.createElement('canvas');
         checkBox.className = 'nav-checkbox';
+        checkBox.width = 8;
+        checkBox.height = 8;
         checkBox.setAttribute('aria-hidden', 'true');
+
+        const ctx = checkBox.getContext('2d')!;
+        ctx.strokeStyle = '#4a6868';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 0.5, 7, 7);
 
         const label = document.createElement('span');
         label.textContent = item.label;
