@@ -20,10 +20,19 @@ const MAP_OPTIONS: MapOption[] = [
 export function createServersPage(navigate: NavigateFn): HTMLElement {
     const page = document.createElement('div');
     page.className = 'page page--servers';
-    page.id = 'page-serves';
+    page.id = 'page-servers';
 
-    const back = new backButton({ onClick: () => navigate('home')});
+    const back = new backButton({ onClick: () => navigate('home') });
     page.appendChild(back.element);
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'queue-backdrop';
+    page.appendChild(backdrop);
+
+    const queuePill = document.createElement('button');
+    queuePill.className = 'queue-pill';
+    queuePill.addEventListener('click', openDrawer);
+    page.insertBefore(queuePill, backdrop);
 
     const layout = document.createElement('div');
     layout.className = 'servers__layout';
@@ -38,7 +47,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
     layout.appendChild(divider);
 
     const queuePanel = document.createElement('div');
-    queuePanel.className = 'serves__queue_panel';
+    queuePanel.className = 'servers__queue-panel';
     queuePanel.setAttribute('aria-live', 'polite');
     layout.appendChild(queuePanel);
 
@@ -46,10 +55,22 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
     let isReady = false;
     let votedMapID: string | null = null;
 
+    function openDrawer(): void {
+        queuePanel.classList.add('servers__queue-panel--open');
+        backdrop.classList.add('queue-backdrop--visible');
+    }
+
+    function closeDrawer(): void {
+        queuePanel.classList.remove('servers__queue-panel--open');
+        backdrop.classList.remove('queue-backdrop--visible');
+    }
+
+    backdrop.addEventListener('click', closeDrawer);
+
     for (const server of SERVERS) {
         const isFull = server.currentPlayers >= server.maxPlayers;
-        
-        const bracket = new BracketContainer({className: 'server-row'});
+
+        const bracket = new BracketContainer({ className: 'server-row' });
 
         const info = document.createElement('div');
         info.className = 'server-row__info';
@@ -78,9 +99,10 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
                 isReady = false;
                 votedMapID = null;
                 buildQueuePanel(server);
+                openDrawer();
                 document
-                  .querySelectorAll('.server-row')
-                  .forEach(serverElement => serverElement.classList.remove('server-row--active'));
+                    .querySelectorAll('.server-row')
+                    .forEach(el => el.classList.remove('server-row--active'));
                 bracket.element.classList.add('server-row--active');
             },
         });
@@ -90,7 +112,16 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
     function buildQueuePanel(server: Server): void {
         queuePanel.innerHTML = '';
-        
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'queue-drawer-close';
+        closeBtn.innerHTML = '&#8592; Close';
+        closeBtn.addEventListener('click', closeDrawer);
+        queuePanel.appendChild(closeBtn);
+
+        queuePill.textContent = `> Queued in ${server.name}`;
+        queuePill.classList.add('queue-pill--active');
+
         const title = document.createElement('div');
         title.className = 'queue__title label';
         title.textContent = `Queued in ${server.name}`;
@@ -101,12 +132,9 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
         waiting.textContent = 'Waiting for more players:';
         queuePanel.appendChild(waiting);
 
-        const playerCount = document.createElement('div');
-        playerCount.className = 'queue__player-count sublabel';
-        playerCount.textContent = `${server.currentPlayers}/${server.maxPlayers} players`
-
         const readyRow = document.createElement('div');
-        readyRow.className = 'flex-row align-center gap-md mt-md';
+        readyRow.className = 'queue__ready-row';
+        
 
         const readyButton = new animatedButton({
             label: isReady ? 'Ready' : 'Not Ready',
@@ -116,9 +144,9 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
                 readyCountElement.textContent = `${isReady ? 1 : 0} / ${server.maxPlayers} players readied`;
             },
         });
-        
+
         const readyCountElement = document.createElement('span');
-        readyCountElement.className = 'sublabel';
+        readyCountElement.className = 'sublabel queue__ready-count';
         readyCountElement.textContent = `${isReady ? 1 : 0} / ${server.maxPlayers} players readied`;
 
         readyRow.appendChild(readyButton.element);
@@ -142,10 +170,10 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
                 votedMapID = map.id;
                 buildQueuePanel(server);
             });
-            mapGrid.appendChild(mapButton)
+            mapGrid.appendChild(mapButton);
         }
 
-        queuePanel.appendChild(mapGrid)
+        queuePanel.appendChild(mapGrid);
     }
 
     const emptyState = document.createElement('div');

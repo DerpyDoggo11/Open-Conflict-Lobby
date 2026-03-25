@@ -5,17 +5,17 @@ export interface animatedButtonOptions {
     width?: string;
     className?: string;
     frameInterval?: number;
+    clickFrameInterval?: number;
 }
 
 export class animatedButton {
     public readonly element: HTMLButtonElement;
-    
     private _frame = 0;
-    private readonly _totalFrames = 4;
+    private readonly _totalFrames = 3;
     private _animTimer: ReturnType<typeof setInterval> | null = null;
-    private _direction: 1 | -1 = 1;
     private _frameWidth = 0;
     private _frameInterval: number;
+    private _clickFrameInterval: number;
 
     constructor(options: animatedButtonOptions) {
         const {
@@ -25,10 +25,11 @@ export class animatedButton {
             width,
             className = '',
             frameInterval = 40,
+            clickFrameInterval = 80,
         } = options;
 
+        this._clickFrameInterval = clickFrameInterval ?? frameInterval;
         this._frameInterval = frameInterval;
-
         this.element = document.createElement('button');
         this.element.className = ['animated-button', className]
             .filter(Boolean)
@@ -39,8 +40,9 @@ export class animatedButton {
         if (width) this.element.style.width = width;
         if (onClick) this.element.addEventListener('click', onClick);
 
-        this.element.addEventListener('mouseenter', () => this._startAnim(1));
-        this.element.addEventListener('mouseleave', () => this._startAnim(-1));
+        this.element.addEventListener('mouseenter', () => this._animateTo(1));
+        this.element.addEventListener('mouseleave', () => this._animateTo(0));
+        this.element.addEventListener('mousedown', () => this._playClickSequence());
 
         this._checkSpriteLoaded();
     }
@@ -58,21 +60,30 @@ export class animatedButton {
         this.element.textContent = label;
     }
 
-    private _startAnim(direction: 1 | -1): void {
-        if (this.element.disabled) return;
-        this._direction = direction;
+    private _animateTo(target: number, interval = this._frameInterval): Promise<void> {
         this._stopAnim();
+        return new Promise(resolve => {
+            if (this._frame === target) {
+                resolve();
+                return;
+            }
+            this._animTimer = setInterval(() => {
+                const next = this._frame + (this._frame < target ? 1: -1);
+                this._setFrame(next);
+                if (this._frame === target) {
+                    this._stopAnim();
+                    resolve();
+                }
+            }, interval);
+        });
+    }
 
-        this._animTimer = setInterval(() => {
-        const next = this._frame + this._direction;
-
-        if (next < 0 || next >= this._totalFrames) {
-            this._stopAnim();
+    private async _playClickSequence(): Promise<void> {
+        if (this.element.disabled) {
             return;
         }
-
-        this._setFrame(next);
-        }, this._frameInterval);
+        await this._animateTo(2, this._clickFrameInterval);
+        await this._animateTo(1, this._clickFrameInterval);
     }
 
     private _stopAnim(): void {
@@ -84,15 +95,13 @@ export class animatedButton {
 
     private _setFrame(index: number): void {
         this._frame = index;
-        const offset = index * this._frameWidth;
-        this.element.style.backgroundPositionX = `-${offset}px`;
+        this.element.style.backgroundPositionX = `-${index * this._frameWidth}px`;
     }
 
     private _checkSpriteLoaded(): void {
         const style = getComputedStyle(document.documentElement);
         const spritePath = style.getPropertyValue('--animated-button-path').trim();
         const widthValue = style.getPropertyValue('--animated-button-width').trim();
-
         this._frameWidth = parseFloat(widthValue) || 0;
 
         const match = spritePath.match(/url\(['"]?(.+?)['"]?\)/);

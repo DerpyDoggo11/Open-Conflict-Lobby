@@ -18,30 +18,30 @@
     --color-text-error: #cc4444;
 
     --font-game: 'pixelFont', 'Courier New', monospace;
-    --font-size-xs: 9px;
-    --font-size-sm: 11px;
-    --font-size-md: 13px;
-    --font-size-lg: 16px;
-    --font-size-xl: 22px;
-    --font-size-logo: 32px;
-
-    --space-xs:  4px;
-    --space-sm:  8px;
-    --space-md:  16px;
-    --space-lg:  24px;
-    --space-xl:  40px;
+    --font-size-xs: clamp(0.6rem,  1vw, 0.75rem);
+    --font-size-sm: clamp(0.7rem,  1.2vw, 0.875rem);
+    --font-size-md: clamp(0.85rem, 1.5vw, 1.25rem);
+    --font-size-lg: clamp(1rem,    2vw, 1.75rem);
+    --font-size-xl: clamp(1.2rem,  2.5vw, 1.5rem);
+    --font-size-logo: clamp(1.2rem,  2.5vw, 2rem);
+    
+    --space-xs: 0.625rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.25rem;
+    --space-xl: 2.5rem;
 
     --color-divider: #3a5858;
 
-    --animated-button-path: url('/assets/images/buttonBackgroundSpritesheet.png');
-    --animated-button-width: 128px;
-    --animated-button-height: 32px; 
+    --animated-button-path: url('/assets/images/playButton.png');
+    --animated-button-width: 160px;
+    --animated-button-height: 45px;
 
     --bracket-bg-path: url('');
     --bracket-size: 22px;
 
     --arrow-left-path: url('/assets/images/leftArrow.png');
-    --arrow-size: 18px;
+    --arrow-size: 28px;
 
     --character-path: url('/assets/images/goober.png');
 
