@@ -238,6 +238,69 @@
     padding: var(--space-xs) 0;
     align-self: flex-start;
 }
+.queue__player-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.queue__player-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    outline: var(--bracket-weight) solid var(--color-border);
+    outline-offset: -2px;
+    gap: var(--space-md);
+}
+
+.queue__player-name {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.queue__player-name em {
+    font-style: normal;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+}
+
+.queue__player-status {
+    font-size: var(--font-size-xs);
+    flex-shrink: 0;
+}
+
+.status--ready {
+    color: #7ec87e;
+}
+
+.status--waiting {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+}
+
+.map-vote-button {
+    background: none;
+    border: none;
+    outline: var(--bracket-weight) solid var(--color-border);
+    outline-offset: -2px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-game);
+    font-size: var(--font-size-xs);
+    padding: var(--space-xs) var(--space-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast), outline-color var(--transition-fast);
+}
+
+.map-vote-button:hover {
+    color: var(--color-text-primary);
+}
+
+.map-vote-button--voted {
+    color: var(--color-text-primary);
+    outline-color: var(--color-text-secondary);
+}
 
 
 @media (max-width: 700px) {
@@ -258,11 +321,14 @@
         padding: var(--space-lg);
         z-index: 100;
         overflow-y: auto;
-        transform: translateX(110%);
-        transition: transform 0.25s ease;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease;
     }
+
     .servers__queue-panel--open {
-        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
     }
     .queue-drawer-close {
         display: flex;
@@ -371,7 +437,7 @@
 .animated-button {
     display: inline-block;
     width: var(--animated-button-width);
-    height: var(--animted-button-height);
+    height: var(--animated-button-height);
     background-image: var(--animated-button-path);
     background-size: calc(var(--animated-button-width) * 3) var(--animated-button-height);
     background-position: 0px 0px;

@@ -117,4 +117,5 @@ export class animatedButton {
         };
         img.src = match[1];
     }
+
 }
