@@ -181,7 +181,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
       room.onMessage("startGame", (msg: { roomId: string; map: string }) => {
         cleanup();
         const params = new URLSearchParams({ roomId: msg.roomId, map: msg.map });
-        window.location.href = `http://localhost:5173?${params}`;
+        window.location.href = `http://localhost:5174?${params}`;
       });
 
       room.onLeave(() => {
