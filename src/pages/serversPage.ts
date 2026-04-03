@@ -5,8 +5,8 @@ import { animatedButton }  from '../components/animatedButton.js';
 import { BracketContainer } from '../components/bracketContainer.js';
 
 const MAX_SERVERS = 4;
-const SERVER_URL = "ws://localhost:2567";
-const HTTP_URL = "http://localhost:2567";
+const SERVER_URL = "ws://open-confict-rts-server.onrender.com";
+const HTTP_URL = "https://open-confict-rts-server.onrender.com";
 const POLL_MS = 3_000;
 
 const MAP_OPTIONS: MapOption[] = [
@@ -181,7 +181,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
       room.onMessage("startGame", (msg: { roomId: string; map: string }) => {
         cleanup();
         const params = new URLSearchParams({ roomId: msg.roomId, map: msg.map });
-        window.location.href = `http://localhost:5174?${params}`;
+        window.location.href = `http://https://open-conflict-rts.pages.dev?${params}`;
       });
 
       room.onLeave(() => {
