@@ -181,7 +181,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
       room.onMessage("startGame", (msg: { roomId: string; map: string }) => {
         cleanup();
         const params = new URLSearchParams({ roomId: msg.roomId, map: msg.map });
-        window.location.href = `http://https://open-conflict-rts.pages.dev?${params}`;
+        window.location.href = `https://open-conflict-rts.pages.dev?${params}`;
       });
 
       room.onLeave(() => {
@@ -234,7 +234,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
       label: 'Not Ready',
       onClick: () => {
         localReady = !localReady;
-        readyBtn.setLabel(localReady ? 'Ready ✓' : 'Not Ready');
+        readyBtn.setLabel(localReady ? 'Ready' : 'Not Ready');
         room.send("setReady", { isReady: localReady });
       },
     });
