@@ -5,7 +5,7 @@ import { animatedButton }  from '../components/animatedButton.js';
 import { BracketContainer } from '../components/bracketContainer.js';
 
 const MAX_SERVERS = 4;
-const SERVER_URL = "ws://open-confict-rts-server.onrender.com";
+const SERVER_URL = "wss://open-confict-rts-server.onrender.com";
 const HTTP_URL = "https://open-confict-rts-server.onrender.com";
 const POLL_MS = 3_000;
 
