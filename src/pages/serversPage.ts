@@ -94,7 +94,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
   const qqName = document.createElement('div');
   qqName.className = 'server-row__name';
-  qqName.textContent = '2v2s';
+  qqName.textContent = '1v1s';
 
   const qqCount = document.createElement('div');
   qqCount.className = 'server-row__count sublabel';
@@ -273,7 +273,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
     (qqJoinBtn.element as HTMLButtonElement).disabled = false;
     qqCard.element.classList.add('server-row--active');
 
-    queuePill.textContent = '> Queued in 2v2s';
+    queuePill.textContent = '> Queued in 1v1s';
     queuePill.classList.add('queue-pill--active');
 
     buildQueuePanel(room);
@@ -319,7 +319,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
     const title = document.createElement('div');
     title.className = 'queue__title label';
-    title.textContent = 'Queued in 2v2s';
+    title.textContent = 'Queued in 1v1s';
     queuePanel.appendChild(title);
 
     const statusRow = document.createElement('div');
