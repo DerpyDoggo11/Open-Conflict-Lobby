@@ -9,9 +9,9 @@ const HTTP_URL = "http://localhost:2567";
 const POLL_MS = 1_000;
 
 const MAP_OPTIONS: MapOption[] = [
-  { id: 'cat-cafe',  label: 'cat cafe'  },
-  { id: 'dog-park',  label: 'dog park'  },
-  { id: 'ceiling',   label: 'ceiling'   },
+  { id: 'isle',  label: 'isle'  },
+  { id: 'everest',  label: 'everest'  },
+  { id: 'loops',   label: 'ceiling'   },
   { id: 'pizza-hut', label: 'pizza hut' },
 ];
 
