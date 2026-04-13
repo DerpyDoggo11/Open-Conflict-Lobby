@@ -3,9 +3,8 @@ import { Client, Room } from "@colyseus/sdk";
 import { backButton } from '../components/backButton.js';
 import { animatedButton }  from '../components/animatedButton.js';
 import { BracketContainer } from '../components/bracketContainer.js';
+import { GAME_URL, SERVER_HTTP_URL, SERVER_WS_URL } from './serverConfig.js';
 
-const SERVER_URL = "ws://localhost:2567";
-const HTTP_URL = "http://localhost:2567";
 const POLL_MS = 1_000;
 
 const MAP_OPTIONS: MapOption[] = [
@@ -43,7 +42,7 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
   page.className = 'page page--servers';
   page.id = 'page-servers';
 
-  const colyseusClient = new Client(SERVER_URL);
+  const colyseusClient = new Client(SERVER_WS_URL);
   let activeRoom: Room | null = null;
   let pollTimer: ReturnType<typeof setInterval> | null = null;
   let tickTimer: ReturnType<typeof setInterval> | null = null;
@@ -224,13 +223,13 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
   async function pollAll() {
     try {
-      const lobbyRes = await fetch(`${HTTP_URL}/lobby-rooms`);
+      const lobbyRes = await fetch(`${SERVER_HTTP_URL}/lobby-rooms`);
       const lobbyData = await lobbyRes.json() as LobbySlot[];
       applySlot(lobbyData[0] ?? null);
     } catch { }
 
     try {
-      const matchRes = await fetch(`${HTTP_URL}/active-matches`);
+      const matchRes = await fetch(`${SERVER_HTTP_URL}/active-matches`);
       const matchData = await matchRes.json() as ActiveMatch[];
       activeMatches = matchData;
       renderActiveMatches();
@@ -279,10 +278,11 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
     buildQueuePanel(room);
     openDrawer();
 
+
     room.onMessage("startGame", (msg: { roomId: string; map: string }) => {
       cleanup();
       const params = new URLSearchParams({ roomId: msg.roomId, map: msg.map });
-      window.location.href = `http://localhost:5174?${params}`;
+      window.location.href = `${GAME_URL}?${params}`;
     });
 
     room.onLeave(() => {
