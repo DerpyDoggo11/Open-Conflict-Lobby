@@ -1,3 +1,4 @@
+import { attachUISounds } from "../misc/attachSounds";
 import type { NavigateFn } from "../types";
 
 interface MenuItem {
@@ -7,8 +8,8 @@ interface MenuItem {
 
 const MENU_ITEMS: MenuItem[] = [
     {label: 'Play', page: 'servers'},
-    {label: 'Loadouts', page: 'loadouts'},
-    {label: 'Settings', page: 'settings'},
+    // {label: 'Loadouts', page: 'loadouts'},
+    // {label: 'Settings', page: 'settings'},
 ];
 
 export function createHomePage(navigate: NavigateFn): HTMLElement {
@@ -69,5 +70,7 @@ export function createHomePage(navigate: NavigateFn): HTMLElement {
 
     page.appendChild(charWrap);
 
+    attachUISounds(page);
+    
     return page;
 }

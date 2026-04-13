@@ -3,15 +3,14 @@ import { Client, Room } from "@colyseus/sdk";
 import { backButton } from '../components/backButton.js';
 import { animatedButton }  from '../components/animatedButton.js';
 import { BracketContainer } from '../components/bracketContainer.js';
-import { GAME_URL, SERVER_HTTP_URL, SERVER_WS_URL } from './serverConfig.js';
+import { GAME_URL, SERVER_HTTP_URL, SERVER_WS_URL } from '../misc/serverConfig.js';
+import { attachUISounds } from '../misc/attachSounds.js';
 
 const POLL_MS = 1_000;
 
 const MAP_OPTIONS: MapOption[] = [
   { id: 'isle',  label: 'isle'  },
-  { id: 'everest',  label: 'everest'  },
-  { id: 'loops',   label: 'ceiling'   },
-  { id: 'pizza-hut', label: 'pizza hut' },
+  // { id: 'everest',  label: 'everest'  },
 ];
 
 interface LobbySlot {
@@ -445,6 +444,8 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
   }
 
   showEmptyState();
+
+  attachUISounds(page);
 
   return page;
 }
