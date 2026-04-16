@@ -2,8 +2,8 @@ import { attachUISounds } from '../misc/attachSounds.js';
 import { SERVER_HTTP_URL } from '../misc/serverConfig.js';
 import type { NavigateFn } from '../types.js';
 
-const PING_INTERVAL_MS = 3_000;
-const PING_TIMEOUT_MS  = 5_000;
+const PING_INTERVAL_MS = 1_000;
+const PING_TIMEOUT_MS  = 3_000;
 
 async function pingServer(): Promise<boolean> {
   const controller = new AbortController();
