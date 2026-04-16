@@ -1,4 +1,5 @@
 import { createHomePage } from './pages/homePage.js';
+import { createLoadingPage } from './pages/loadingPage.js';
 import { createLoadoutsPage } from './pages/loadoutsPage.js';
 import { createServersPage } from './pages/serversPage.js';
 import { createSettingsPage } from './pages/settingsPage.js';
@@ -8,14 +9,16 @@ import type { PageName, NavigateFn } from './types.js';
 type PageFactory = (navigate: NavigateFn) => HTMLElement;
 
 const PAGE_FACTORIES: Record<PageName, PageFactory> = {
-  'home': createHomePage,
-  'servers': createServersPage,
+  'home':     createHomePage,
+  'loading':  createLoadingPage,
+  'servers':  createServersPage,
   'loadouts': createLoadoutsPage,
   'settings': createSettingsPage,
 };
 
-const LOBBY_MUSIC_PATH = '/assets/music/lobby.mp3';
+const LOBBY_MUSIC_PATH   = '/assets/music/lobby.mp3';
 const LOBBY_MUSIC_VOLUME = 1.3;
+
 export class App {
   private readonly root: HTMLElement;
   private readonly pageCache = new Map<PageName, HTMLElement>();
@@ -34,15 +37,14 @@ export class App {
         this.musicStarted = true;
         musicPlayer.play(LOBBY_MUSIC_PATH, { volume: LOBBY_MUSIC_VOLUME });
       }
-
       window.removeEventListener('pointerdown', startMusic);
-      window.removeEventListener('keydown', startMusic);
-      window.removeEventListener('click', startMusic);
+      window.removeEventListener('keydown',     startMusic);
+      window.removeEventListener('click',       startMusic);
     };
 
     window.addEventListener('pointerdown', startMusic);
-    window.addEventListener('keydown', startMusic);
-    window.addEventListener('click', startMusic);
+    window.addEventListener('keydown',     startMusic);
+    window.addEventListener('click',       startMusic);
   }
 
   navigate: NavigateFn = (page: PageName): void => {
