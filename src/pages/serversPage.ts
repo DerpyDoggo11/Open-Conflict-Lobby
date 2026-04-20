@@ -26,6 +26,7 @@ interface ActiveMatch {
   startedAt: number;
   clients:   number;
   maxClients: number;
+  map?:      string;
 }
 
 function formatElapsed(startedAt: number): string {
@@ -147,8 +148,6 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
   let currentSlot: LobbySlot | null = null;
 
   function applySlot(slot: LobbySlot | null) {
-    // Always update the slot reference and count display —
-    // only skip touching the button while queued.
     currentSlot = slot;
 
     if (!slot) {
@@ -200,10 +199,20 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
       info.appendChild(metaEl);
       card.append(info);
 
+      // ── Spectate button: navigates to the game URL with spectate=true ──
       const spectateBtn = new animatedButton({
         label: 'Spectate',
-        disabled: true,
-        onClick: () => { },
+        disabled: false,
+        onClick: () => {
+          cleanup();
+          const matchMap = match.map || 'isle';
+          const spectateParams = new URLSearchParams({
+            roomId: match.roomId,
+            map: matchMap,
+            spectate: 'true',
+          });
+          window.location.href = `${GAME_URL}?${spectateParams}`;
+        },
       });
       card.append(spectateBtn.element);
 
@@ -249,8 +258,6 @@ export function createServersPage(navigate: NavigateFn): HTMLElement {
 
     let room: Room;
     try {
-      // Try joining an existing room; fall back to creating if the roomId is
-      // stale (disposed between poll and click) or the room is now full.
       if (currentSlot?.roomId && (currentSlot.clients ?? 0) < (currentSlot.maxClients ?? 2)) {
         try {
           room = await colyseusClient.joinById(currentSlot.roomId, { name: getPlayerName() });
